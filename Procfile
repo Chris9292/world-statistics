@@ -1,1 +1,1 @@
-web: gunicorn world-stastistics: world_statistics.py
+web: gunicorn app:server
