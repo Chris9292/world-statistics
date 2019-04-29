@@ -1,1 +1,1 @@
-web: gunicorn dash_scatter: dash_scatter.py
+web: gunicorn world-stastistics: world_statistics.py
