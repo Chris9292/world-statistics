@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.graph_objs as go
 
 # read file
-df = pd.read_csv('.\\data\\indicators.csv')
+df = pd.read_csv('data/indicators.csv')
 
 # get unique attributes for selection
 available_indicators = df['Indicator Name'].unique()
