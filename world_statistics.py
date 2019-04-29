@@ -12,7 +12,7 @@ df = pd.read_csv('.\\data\\indicators.csv')
 available_indicators = df['Indicator Name'].unique()
 
 app = dash.Dash(__name__)
-
+server = app.server
 app.layout = html.Div(id = 'container', children = [
 
     html.Div(id = 'header', children = [
