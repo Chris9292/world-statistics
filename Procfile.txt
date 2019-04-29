@@ -1,1 +1,1 @@
-web: gunicorn tutorialtest2: app
+web: gunicorn dash_scatter: dash_scatter.py
