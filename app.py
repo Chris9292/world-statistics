@@ -1,4 +1,5 @@
 import dash
+import dash_table
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
@@ -69,6 +70,9 @@ app.layout = html.Div(id = 'container', children = [
             marks = {str(i): str(i) for i in df['Year'].unique()},
             value = df.Year.max(),
             className = 'slider'
+        ),
+        html.Div(
+            id = 'data_table_div'
         )
     ])
 ])
@@ -115,5 +119,23 @@ def update_graph(xaxis_value, yaxis_value, year, radio_left, radio_right, countr
     return {'data': data, 'layout': layout}
 
 
+@app.callback(output = Output('data_table_div', 'children'),
+              inputs = [Input('country', 'value'),
+                        Input('slider', 'value')])
+def create_data_table(country_value, year):
+    if len(country_value) < 1:
+        return
+
+    selected_data = df[(df['Year'] == year) & (df['Country Name'].isin(country_value))]
+
+
+    return dash_table.DataTable(
+        id = 'DataTable',
+        columns = [{'name': i, 'id': i} for i in df.columns[1:]],
+        data = selected_data.to_dict('records'),
+        sorting = True,
+        filtering = True,
+        pagination_mode = 'fe'
+        )
 if __name__ == '__main__':
     app.run_server(debug = True)
