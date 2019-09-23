@@ -13,11 +13,12 @@ df = pd.read_csv('data/indicators.csv')
 available_indicators = df['Indicator Name'].unique()
 
 app = dash.Dash(__name__)
+app.title = "World statistics"
 server = app.server
 app.layout = html.Div(id = 'container', children = [
 
     html.Div(id = 'header', children = [
-        html.H1('Dash scatter plot app',
+        html.H1('World statistics',
                 id = 'title'
                 )
     ]),
@@ -71,6 +72,7 @@ app.layout = html.Div(id = 'container', children = [
             value = df.Year.max(),
             className = 'slider'
         ),
+        html.Br(),
         html.Div(
             id = 'data_table_div'
         )
@@ -128,14 +130,15 @@ def create_data_table(country_value, year):
 
     selected_data = df[(df['Year'] == year) & (df['Country Name'].isin(country_value))]
 
-
     return dash_table.DataTable(
         id = 'DataTable',
-        columns = [{'name': i, 'id': i} for i in df.columns[1:]],
+        columns = [{'name': i, 'id': i} for i in df.columns],
         data = selected_data.to_dict('records'),
-        sorting = True,
-        filtering = True,
-        pagination_mode = 'fe'
+        sort_action = 'native',
+        filter_action = 'native',
+        export_format='xlsx',
+        export_headers='display'
         )
+
 if __name__ == '__main__':
-    app.run_server(debug = True)
+    app.run_server()
